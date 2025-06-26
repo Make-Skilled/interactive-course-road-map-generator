@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadmap PDF</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body style="background:#fff;padding:40px;">
+    <div style="max-width:600px;margin:0 auto;background:rgba(255,255,255,0.95);border-radius:16px;padding:32px 24px;box-shadow:0 2px 8px #6366f133;">
+        <h1 style="font-size:2rem;font-weight:bold;margin-bottom:32px;text-align:center;">{{ roadmap.title }}</h1>
+        <div class="stepper" style="display:flex;flex-direction:column;align-items:center;">
+            {% for step in roadmap.steps %}
+            <div class="step" style="display:flex;align-items:center;margin-bottom:16px;width:100%;">
+                <div class="circle" style="width:32px;height:32px;border-radius:50%;background:#6366f1;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;margin-right:16px;">{{ loop.index }}</div>
+                <div class="step-content" style="background:#f3f4f6;border-radius:8px;padding:12px 20px;min-width:200px;">
+                    <div class="step-title" style="font-weight:600;">{{ step.title }}</div>
+                    <div class="step-desc" style="color:#374151;">{{ step.desc }}</div>
+                </div>
+            </div>
+            {% if not loop.last %}
+            <div class="line" style="width:4px;height:48px;background:#a5b4fc;margin:0 auto;"></div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html> 

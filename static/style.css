@@ -1,0 +1,41 @@
+body {
+    background: linear-gradient(135deg, #e0e7ff 0%, #f0f4f8 100%);
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+.glass {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.glassy-header {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #312e81;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 1.5rem;
+}
+.glass-btn {
+    background: rgba(99, 102, 241, 0.7);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+.glass-btn:hover {
+    background: rgba(99, 102, 241, 1);
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.25);
+}
+.fade-in {
+    animation: fadeIn 1s ease-in;
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+} 

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Interactive Course Roadmap Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <script>
+    function downloadPDF() {
+        // Grab the roadmap stepper container
+        const roadmapContainer = document.querySelector('.glass.p-6.mb-4');
+        if (!roadmapContainer) {
+            alert('No roadmap to export!');
+            return;
+        }
+        // Prepare minimal HTML for xhtml2pdf compatibility
+        const html = `<!DOCTYPE html>
+<html><head>
+<meta charset='UTF-8'>
+<title>Roadmap PDF</title>
+<style>
+body { font-family: Arial, sans-serif; background: #fff; }
+.stepper { display: flex; flex-direction: column; align-items: center; }
+.step { display: flex; align-items: center; margin-bottom: 16px; }
+.circle { width: 32px; height: 32px; border-radius: 50%; background: #6366f1; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 16px; }
+.line { width: 4px; height: 48px; background: #a5b4fc; margin: 0 auto; }
+.step-content { background: #f3f4f6; border-radius: 8px; padding: 12px 20px; min-width: 200px; }
+.step-title { font-weight: 600; }
+.step-desc { color: #374151; }
+</style>
+</head><body>` + roadmapContainer.outerHTML + `</body></html>`;
+        document.getElementById('roadmap_html').value = html;
+        document.getElementById('pdf-form').submit();
+    }
+    </script>
+    <!-- Add html2canvas CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-200 via-white to-blue-100 fade-in">
+    <div class="glass p-10 max-w-2xl w-full shadow-2xl border border-white/30 relative">
+        <div class="flex justify-between items-center mb-8">
+            <div class="glassy-header flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                Roadmap Generator
+            </div>
+            <a href="/logout" class="glass-btn">Logout</a>
+        </div>
+        <form method="POST" class="flex items-center mb-8 space-x-2">
+            <input type="text" name="topic" placeholder="Ex: Python roadmap" required class="flex-1 px-4 py-2 rounded glass focus:outline-none shadow-md border border-white/20"/>
+            <button type="submit" class="glass-btn">➔</button>
+        </form>
+        {% if roadmap %}
+        <div class="glass p-6 mb-4 mx-auto" id="roadmap-stepper" style="max-width:2500px;">
+            <h2 class="text-2xl font-bold mb-8 text-center text-indigo-700 drop-shadow flex items-center justify-center gap-2">
+                {{ roadmap.title }}
+            </h2>
+            <div class="relative stepper w-full" style="min-height:{{ roadmap.steps|length * 120 }}px;">
+                <!-- Central vertical line -->
+                <div class="absolute left-1/2 top-0 -translate-x-1/2 z-0 h-full" style="width:6px; height:100%; background: linear-gradient(180deg, #6366f1 60%, #818cf8 100%); border-radius:3px;"></div>
+                {% for step in roadmap.steps %}
+                <div class="relative w-full flex items-center mb-6" style="height:90px;">
+                    {% if loop.index0 % 2 == 0 %}
+                    <!-- Left card -->
+                    <div class="w-1/2 flex justify-end items-center relative" style="height:90px;">
+                        <div class="step-card bg-white/95 border border-indigo-100 rounded-xl px-6 py-4 shadow-lg flex flex-row items-center justify-end gap-3" style="width:350px; min-height:60px; padding-right:32px;">
+                            <div class="circle shadow-lg mr-2" style="width:32px;height:32px;font-size:1rem;">{{ loop.index }}</div>
+                            <div class="flex flex-col items-end">
+                                <div class="step-title text-sm font-semibold text-indigo-800">{{ step.title }}</div>
+                                <div class="step-desc text-gray-700 text-xs">{{ step.desc }}</div>
+                            </div>
+                        </div>
+                        <!-- Horizontal connector -->
+                        <div class="absolute right-[-32px] top-1/2 -translate-y-1/2 z-10" style="width:32px; height:4px; background: #6366f1; border-radius:2px;"></div>
+                    </div>
+                    <div class="w-1/2"></div>
+                    {% else %}
+                    <div class="w-1/2"></div>
+                    <!-- Right card -->
+                    <div class="w-1/2 flex justify-start items-center relative" style="height:90px;">
+                        <!-- Horizontal connector -->
+                        <div class="absolute left-[-32px] top-1/2 -translate-y-1/2 z-10" style="width:32px; height:4px; background: #6366f1; border-radius:2px;"></div>
+                        <div class="step-card bg-white/95 border border-indigo-100 rounded-xl px-6 py-4 shadow-lg flex flex-row items-center justify-start gap-3" style="width:350px; min-height:60px; padding-left:32px;">
+                            <div class="flex flex-col items-start">
+                                <div class="step-title text-sm font-semibold text-indigo-800">{{ step.title }}</div>
+                                <div class="step-desc text-gray-700 text-xs">{{ step.desc }}</div>
+                            </div>
+                            <div class="circle shadow-lg ml-2" style="width:32px;height:32px;font-size:1rem;">{{ loop.index }}</div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="flex gap-4 mt-6">
+            <button type="button" onclick="window.print()" class="glass-btn w-full bg-gradient-to-r from-indigo-400 to-blue-400 hover:from-indigo-500 hover:to-blue-500">Print as PDF (Exact)</button>
+            <button type="button" onclick="downloadAsImage()" class="glass-btn w-full bg-gradient-to-r from-green-400 to-blue-400 hover:from-green-500 hover:to-blue-500">Download as Image</button>
+        </div>
+        {% endif %}
+    </div>
+    <style>
+        .stepper { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        .circle { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #fff 0%, #6366f1 60%, #818cf8 100%); color: #3b3bff; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1rem; box-shadow: 0 2px 8px #6366f133; border: 2px solid #e0e7ff; }
+        .step-card { box-shadow: 0 4px 24px 0 #6366f122; }
+        @media print {
+            body { background: #fff !important; }
+            .glass, .glass-btn, .glassy-header, .step-content, .step-card { box-shadow: none !important; background: #fff !important; color: #222 !important; }
+            .step-title { color: #222 !important; }
+            .step-desc { color: #444 !important; }
+            .glass-btn, .glass-btn * { display: none !important; }
+            form, input, button, .glass-btn { display: none !important; }
+            /* Force lines to be visible and solid in print */
+            .stepper > .absolute, .stepper [style*='background: linear-gradient'], .stepper [style*='background: #6366f1'] {
+                background: #6366f1 !important;
+                z-index: 100 !important;
+            }
+            .stepper svg, .stepper path {
+                stroke: #6366f1 !important;
+                fill: none !important;
+            }
+        }
+    </style>
+    <script>
+    function downloadAsImage() {
+        const node = document.getElementById('roadmap-stepper');
+        html2canvas(node, {backgroundColor: '#f8fafc', scale: 2}).then(function(canvas) {
+            const link = document.createElement('a');
+            link.download = 'roadmap.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+    }
+    </script>
+</body>
+</html> 
