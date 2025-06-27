@@ -7,9 +7,9 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
 </head>
-<body class="min-h-screen bg-gradient-to-br from-indigo-200 via-white to-blue-100 flex flex-col items-center justify-start fade-in">
+<body class="h-screen w-screen bg-gradient-to-br from-indigo-200 via-white to-blue-100 flex flex-col items-center justify-start fade-in overflow-y-auto">
     <!-- Hero Section -->
-    <div class="w-full flex flex-col items-center pt-16 pb-8">
+    <div class="w-full flex flex-col items-center pt-8 pb-6">
         <div class="glassy-header text-4xl flex items-center gap-3 mb-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
             Interactive Course Roadmap Generator
@@ -17,7 +17,7 @@
         <div class="text-lg text-indigo-900 mb-4">Plan your learning journey with beautiful, downloadable roadmaps.</div>
     </div>
     <!-- Login/Signup Card -->
-    <div class="glass p-10 max-w-lg w-full text-center shadow-2xl border border-white/30 mb-10 animate-fadeInUp">
+    <div class="glass p-8 w-full max-w-lg text-center shadow-2xl border border-white/30 mb-8 animate-fadeInUp">
         <div class="mb-6 flex justify-center gap-6">
             <a href="/login" class="glass-btn text-lg px-8 py-3">🔐 Login</a>
             <a href="/signup" class="glass-btn text-lg px-8 py-3">🧾 Signup</a>
@@ -31,7 +31,7 @@
 
     </div>
     <!-- Features Section -->
-    <div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+    <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 px-4">
         <div class="glass p-6 flex flex-col items-center text-center">
             <svg class="h-10 w-10 text-indigo-500 mb-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
             <div class="font-bold text-lg mb-1">Smart Roadmaps</div>
@@ -49,7 +49,7 @@
         </div>
     </div>
     <!-- Sample Roadmap Preview -->
-    <div class="glass max-w-3xl w-full mx-auto p-8 mb-12 shadow-lg animate-fadeInUp">
+    <div class="glass w-full mx-auto p-6 mb-8 shadow-lg animate-fadeInUp">
         <div class="text-xl font-bold text-indigo-700 mb-4">Sample Roadmap Preview</div>
         <div class="flex flex-col items-center">
             <div class="relative w-full max-w-xl">
@@ -115,7 +115,7 @@
         </div>
     </div>
     <!-- FAQ / How it Works -->
-    <div class="max-w-3xl w-full mx-auto mb-16">
+    <div class="w-full mx-auto mb-8 px-4">
         <div class="text-lg font-bold text-indigo-700 mb-4">How It Works</div>
         <ol class="list-decimal list-inside text-gray-800 space-y-2">
             <li>Sign up or log in to your account.</li>
@@ -124,7 +124,7 @@
             <li>Download your roadmap as an image or PDF, or print it directly.</li>
         </ol>
     </div>
-    <div class="roadmap-list-section">
+    <div class="roadmap-list-section w-full px-4 pb-8">
         <div class="roadmap-outer-card">
             <h2 class="roadmap-card-title">Available Roadmaps</h2>
             <p class="roadmap-card-desc">We currently provide roadmaps for 100+ programming languages and technologies:</p>
@@ -170,7 +170,7 @@
         }
         .roadmap-list-cards {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 16px 16px;
             list-style: none;
             padding: 0;
@@ -200,12 +200,12 @@
         }
         @media (max-width: 1100px) {
             .roadmap-list-cards {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             }
         }
         @media (max-width: 600px) {
             .roadmap-list-cards {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
                 gap: 8px 0;
             }
             .roadmap-outer-card {
